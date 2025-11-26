@@ -1,0 +1,243 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDAAN - Career Roadmap Builder</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- KEEPING YOUR EXACT CSS STYLES --- */
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-container: rgba(15, 20, 45, 0.95);
+            --bg-panel: rgba(20, 25, 50, 0.8);
+            --bg-input: rgba(10, 14, 39, 0.6);
+            --purple: #8a2be2;
+            --cyan: #00d4ff;
+            --green: #00ff41;
+            --red: #e74c3c;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.9);
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --text-placeholder: rgba(255, 255, 255, 0.4);
+            --border-default: rgba(138, 43, 226, 0.3);
+            --border-focus: #8a2be2;
+            --font-main: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --radius-lg: 20px;
+            --radius-md: 10px;
+            --radius-sm: 8px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-primary);
+            min-height: 100vh;
+            display: flex;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 255, 65, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(138, 43, 226, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .form-control, .form-select {
+            background: var(--bg-input) !important;
+            border: 2px solid rgba(138, 43, 226, 0.3) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .form-control::placeholder { color: var(--text-placeholder) !important; }
+
+        .form-control:focus, .form-select:focus {
+            background: rgba(10, 14, 39, 0.8) !important;
+            border-color: var(--purple) !important;
+            box-shadow: 0 0 0 0.25rem rgba(138, 43, 226, 0.2), 0 0 20px rgba(138, 43, 226, 0.3) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .form-label { color: var(--text-secondary) !important; font-weight: 600; }
+
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            margin: auto;
+            background: var(--bg-container);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            min-height: 700px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(135deg, var(--purple) 0%, var(--cyan) 50%, var(--green) 100%);
+            padding: 60px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand { margin-bottom: 40px; }
+        .logo-container { display: flex; align-items: center; margin-bottom: 20px; }
+        .logo {
+            width: 80px; height: 80px; background: white; border-radius: var(--radius-lg);
+            display: flex; align-items: center; justify-content: center; margin-right: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); animation: float 3s ease-in-out infinite; padding: 10px;
+        }
+        .logo img { width: 100%; height: 100%; object-fit: contain; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+
+        .brand h1 { font-size: 56px; font-weight: 700; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); }
+        .brand p { font-size: 18px; opacity: 0.95; line-height: 1.6; margin-top: 15px; }
+
+        .features { margin-top: 50px; }
+        .feature-item { display: flex; align-items: center; margin-bottom: 25px; animation: fadeInLeft 0.6s ease-out forwards; opacity: 0; }
+        .feature-item:nth-child(1) { animation-delay: 0.2s; }
+        .feature-item:nth-child(2) { animation-delay: 0.4s; }
+        .feature-item:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+
+        .feature-icon { width: 50px; height: 50px; background: rgba(255, 255, 255, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-size: 24px; }
+        .feature-text h3 { font-size: 18px; margin-bottom: 5px; }
+        .feature-text p { font-size: 14px; opacity: 0.9; }
+
+        .right-panel { flex: 1; padding: 40px 80px; display: flex; flex-direction: column; background: var(--bg-panel); position: relative; }
+        .header-nav { display: flex; justify-content: flex-end; align-items: center; width: 100%; margin-bottom: 20px; position: relative; z-index: 1020; }
+        .menu-icon { color: var(--cyan); font-size: 1.5em; cursor: pointer; padding: 10px; border-radius: 8px; transition: background 0.3s ease; }
+        .menu-icon:hover { background: rgba(0, 212, 255, 0.1); }
+        .dropdown-menu { position: absolute; top: 100%; right: 0; z-index: 1021; width: 250px; background: rgba(20, 25, 50, 0.95); border-radius: 0 0 var(--radius-md) var(--radius-md); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); border: 1px solid var(--border-focus); border-top: none; display: none; }
+        .dropdown-menu.visible { display: block; }
+        .menu-list a { display: block; padding: 12px 15px; color: var(--text-secondary); text-decoration: none; font-size: 1em; transition: background 0.2s, color 0.2s; }
+        .menu-list a:hover { background: rgba(138, 43, 226, 0.15); color: var(--cyan); }
+        
+        .form-header { margin-bottom: 40px; margin-top: 20px; }
+        .form-header h2 { font-size: 32px; color: var(--text-primary); margin-bottom: 10px; }
+        .form-header p { color: var(--text-muted); font-size: 15px; }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: rgba(255, 255, 255, 0.9); font-weight: 600; font-size: 14px; }
+        label .required { color: var(--red); }
+        input, textarea, select { width: 100%; padding: 14px 16px; border: 2px solid rgba(138, 43, 226, 0.3); border-radius: 10px; font-size: 15px; transition: all 0.3s ease; font-family: inherit; background: rgba(10, 14, 39, 0.6); color: #ffffff; }
+        input::placeholder, textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: #8a2be2; background: rgba(10, 14, 39, 0.8); box-shadow: 0 0 0 4px rgba(138, 43, 226, 0.2), 0 0 20px rgba(138, 43, 226, 0.3); }
+        textarea { resize: vertical; min-height: 100px; }
+
+        .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--purple) 0%, var(--cyan) 100%); color: white; border: none; border-radius: var(--radius-md); font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; margin-top: 10px; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(138, 43, 226, 0.4); }
+
+        .info-note { margin-top: 25px; padding: 15px; background: rgba(138, 43, 226, 0.15); border-left: 4px solid var(--purple); border-radius: var(--radius-sm); font-size: 13px; color: rgba(255, 255, 255, 0.8); }
+
+        @media (max-width: 1024px) { .main-container { flex-direction: column; } .left-panel { padding: 40px; } .right-panel { padding: 40px; } .form-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="left-panel">
+            <div class="brand">
+                <div class="logo-container">
+                    <div class="logo">
+                        <i class="fas fa-microchip fa-2x text-primary" style="color: var(--bg-primary);"></i>
+                    </div>
+                    <h1>UDAAN</h1>
+                </div>
+                <p>Transform your career aspirations into actionable roadmaps with AI-powered personalized guidance</p>
+            </div>
+            <div class="features">
+                <div class="feature-item"><div class="feature-icon">🎯</div><div class="feature-text"><h3>Personalized Analysis</h3><p>Get insights tailored to your unique skills and goals</p></div></div>
+                <div class="feature-item"><div class="feature-icon">🚀</div><div class="feature-text"><h3>Step-by-Step Roadmap</h3><p>Clear action plans to reach your dream role</p></div></div>
+                <div class="feature-item"><div class="feature-icon">📊</div><div class="feature-text"><h3>Career Predictions</h3><p>AI-driven predictions based on your profile</p></div></div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="header-nav">
+                <div class="menu-icon" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+                <div id="mainDropdownMenu" class="dropdown-menu">
+                    <div class="menu-list">
+                        <a href="#"><i class="fas fa-tachometer-alt fa-fw mr-2"></i> Dashboard</a>
+                        <a href="#" class="active-menu"><i class="fas fa-map-marked-alt fa-fw mr-2"></i> Career Roadmap Builder</a>
+                        <a href="#"><i class="fas fa-sign-out-alt fa-fw mr-2"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-header">
+                <h2>Get Started</h2>
+                <p>Fill in your details to receive your personalized career roadmap</p>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Full Name <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="name" required placeholder="John Doe">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Date of Birth <span class="required">*</span></label>
+                        <input type="date" class="form-control" name="dob" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Current Role <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="currentRole" required placeholder="e.g., Student, Developer">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Dream Job Role <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="dreamRole" required placeholder="e.g., Machine Learning Engineer">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Current Skills <span class="required">*</span></label>
+                        <textarea class="form-control" name="skills" required placeholder="List your current skills (e.g., Python, JavaScript, Data Analysis)" rows="3"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">What Do You Want to Become? <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="whatToBecome" required placeholder="e.g., AI Specialist, Tech Lead">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Hobbies & Interests</label>
+                        <textarea class="form-control" name="hobbies" placeholder="Share your hobbies..." rows="3"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn mt-4">Generate My Career Roadmap →</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleMenu() { document.getElementById('mainDropdownMenu').classList.toggle('visible'); }
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-icon') && !event.target.closest('.menu-icon')) {
+                const dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    if (dropdowns[i].classList.contains('visible')) dropdowns[i].classList.remove('visible');
+                }
+            }
+        }
+        document.getElementById('dob').max = new Date().toISOString().split('T')[0];
+    </script>
+</body>
+</html>

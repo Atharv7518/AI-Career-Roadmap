@@ -1,0 +1,40 @@
+/* Apply modern font */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa; /* Light gray background */
+}
+
+/* Hero Section on Home Page */
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 100px 0;
+    margin-bottom: 40px;
+}
+
+/* Card Styling */
+.custom-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    background: white;
+}
+
+/* Timeline Styling for Result Page */
+.timeline-step {
+    border-left: 4px solid #0d6efd;
+    padding-left: 20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.timeline-step::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: #0d6efd;
+    border-radius: 50%;
+    position: absolute;
+    left: -8px;
+    top: 5px;
+}

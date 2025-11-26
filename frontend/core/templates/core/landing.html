@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Career Roadmap - Loading</title>
+    <style>
+        /* --- ALL YOUR EXISTING CSS --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0a0e27; min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; transition: opacity 1s ease-out; }
+        .matrix-bg { position: absolute; width: 100%; height: 100%; overflow: hidden; }
+        .code-rain { position: absolute; color: #00ff41; font-family: 'Courier New', monospace; font-size: 14px; opacity: 0.15; animation: rain linear infinite; }
+        @keyframes rain { 0% { transform: translateY(-100%); } 100% { transform: translateY(100vh); } }
+        .neural-network { position: absolute; width: 100%; height: 100%; opacity: 0.1; }
+        .node { position: absolute; width: 4px; height: 4px; background: #00d4ff; border-radius: 50%; box-shadow: 0 0 10px #00d4ff; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.5); } }
+        .container { text-align: center; z-index: 10; position: relative; }
+        .logo-container { background: rgba(15, 20, 45, 0.8); backdrop-filter: blur(20px); border-radius: 30px; padding: 50px 70px; box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2), 0 0 100px rgba(138, 43, 226, 0.1); border: 1px solid rgba(0, 212, 255, 0.2); animation: fadeInScale 1s ease-out; }
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        .logo { width: 140px; height: 140px; margin: 0 auto 20px; position: relative; }
+        .logo-hexagon { width: 140px; height: 140px; background: linear-gradient(135deg, #00d4ff 0%, #8a2be2 100%); clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); display: flex; justify-content: center; align-items: center; box-shadow: 0 0 40px rgba(0, 212, 255, 0.5); animation: rotate 10s linear infinite; position: relative; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .logo-inner { width: 130px; height: 130px; background: #0a0e27; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); display: flex; justify-content: center; align-items: center; flex-direction: column; }
+        .logo-icon { font-size: 45px; background: linear-gradient(135deg, #00d4ff, #8a2be2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; letter-spacing: 2px; }
+        .brain-circuit { position: absolute; width: 200px; height: 200px; top: -30px; left: -30px; opacity: 0.3; }
+        .circuit-line { stroke: #00d4ff; stroke-width: 1; fill: none; stroke-dasharray: 500; stroke-dashoffset: 500; animation: drawLine 3s ease-in-out infinite; }
+        @keyframes drawLine { 0%, 100% { stroke-dashoffset: 500; } 50% { stroke-dashoffset: 0; } }
+        h1 { background: linear-gradient(135deg, #00d4ff, #ffffff, #8a2be2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 48px; margin-bottom: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; animation: glow 2s ease-in-out infinite; }
+        @keyframes glow { 0%, 100% { filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5)); } 50% { filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.8)); } }
+        .tagline { color: #00d4ff; font-size: 16px; margin-bottom: 30px; font-weight: 400; text-transform: uppercase; letter-spacing: 3px; }
+        .catchy-phrase { color: #8a2be2; font-size: 20px; font-weight: 600; margin-bottom: 30px; font-style: italic; animation: slideIn 1s ease-out 0.5s both; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .loading-container { margin-top: 30px; }
+        .loading-bar { width: 350px; height: 8px; background: rgba(0, 212, 255, 0.1); border-radius: 10px; overflow: hidden; margin: 0 auto; border: 1px solid rgba(0, 212, 255, 0.3); }
+        .loading-progress { height: 100%; background: linear-gradient(90deg, #00d4ff 0%, #8a2be2 50%, #00d4ff 100%); border-radius: 10px; animation: loadProgress 2.5s ease-in-out infinite; box-shadow: 0 0 20px rgba(0, 212, 255, 0.6); }
+        @keyframes loadProgress { 0% { width: 0%; } 50% { width: 70%; } 100% { width: 100%; } }
+        .loading-text { color: #00d4ff; font-size: 14px; margin-top: 15px; font-family: 'Courier New', monospace; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .tech-stats { display: flex; justify-content: center; gap: 40px; margin-top: 35px; flex-wrap: wrap; }
+        .stat-item { color: #ffffff; font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .stat-icon { width: 50px; height: 50px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(138, 43, 226, 0.2)); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 24px; border: 1px solid rgba(0, 212, 255, 0.3); animation: float 3s ease-in-out infinite; }
+        .stat-item:nth-child(1) .stat-icon { animation-delay: 0s; }
+        .stat-item:nth-child(2) .stat-icon { animation-delay: 0.5s; }
+        .stat-item:nth-child(3) .stat-icon { animation-delay: 1s; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .stat-label { color: #00d4ff; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
+        .watermark { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: rgba(0, 212, 255, 0.4); font-size: 12px; font-family: 'Courier New', monospace; text-align: center; z-index: 5; }
+        .watermark-emphasis { color: #8a2be2; font-weight: bold; }
+        
+        /* FADE OUT CLASS - To be added by JS */
+        .fade-out-page { opacity: 0; pointer-events: none; }
+        @media (max-width: 768px) { .logo-container { padding: 40px 30px; } h1 { font-size: 36px; } .catchy-phrase { font-size: 18px; } .loading-bar { width: 280px; } .tech-stats { gap: 25px; } }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg" id="matrixBg"></div>
+    <div class="neural-network" id="neuralNet"></div>
+    <div class="container">
+        <div class="logo-container">
+            <div class="logo">
+                <svg class="brain-circuit">
+                    <path class="circuit-line" d="M 50 20 Q 100 40, 150 20 L 180 60 Q 150 80, 180 100" />
+                    <path class="circuit-line" d="M 20 50 Q 40 100, 20 150 L 60 180 Q 80 150, 100 180" />
+                </svg>
+                <div class="logo-hexagon">
+                    <div class="logo-inner">
+                        <div class="logo-icon">AI</div>
+                    </div>
+                </div>
+            </div>
+            <h1>AI Career Guidance</h1>
+            <p class="tagline">Neural Powered Career Intelligence</p>
+            <p class="catchy-phrase">"Your Skills, Your Path, AI-Powered!"</p>
+            <div class="loading-container">
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <p class="loading-text">>> Initializing Neural Network... 87%</p>
+            </div>
+            <div class="tech-stats">
+                <div class="stat-item"><div class="stat-icon">🗺</div><span class="stat-label">Career Roadmap</span></div>
+                <div class="stat-item"><div class="stat-icon">🎓</div><span class="stat-label">Skill Recommender</span></div>
+                <div class="stat-item"><div class="stat-icon">🧭</div><span class="stat-label">AI Guidance</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="watermark"><div>Powered by <span class="watermark-emphasis">Deep Learning</span> | Your Future, <span class="watermark-emphasis">Decoded</span></div></div>
+
+    <script>
+        // Matrix Rain
+        const matrixBg = document.getElementById('matrixBg');
+        const chars = '01アイウエオカキクケコサシスセソ{}[]<>AIMLDATA';
+        for (let i = 0; i < 25; i++) {
+            const rain = document.createElement('div');
+            rain.className = 'code-rain';
+            rain.style.left = `${Math.random() * 100}%`; // Fixed backticks
+            rain.style.animationDuration = `${5 + Math.random() * 10}s`; // Fixed backticks
+            rain.style.animationDelay = `${Math.random() * 5}s`; // Fixed backticks
+            let text = '';
+            for (let j = 0; j < 20; j++) {
+                text += chars[Math.floor(Math.random() * chars.length)] + '<br>';
+            }
+            rain.innerHTML = text;
+            matrixBg.appendChild(rain);
+        }
+
+        // Neural Net
+        const neuralNet = document.getElementById('neuralNet');
+        for (let i = 0; i < 30; i++) {
+            const node = document.createElement('div');
+            node.className = 'node';
+            node.style.left = `${Math.random() * 100}%`; // Fixed backticks
+            node.style.top = `${Math.random() * 100}%`; // Fixed backticks
+            node.style.animationDelay = `${Math.random() * 2}s`; // Fixed backticks
+            neuralNet.appendChild(node);
+        }
+
+        // --- THE REDIRECT LOGIC ---
+        setTimeout(() => {
+            // 1. Fade out the body
+            document.body.classList.add('fade-out-page');
+            
+            // 2. Wait 1 second for fade out, then redirect to Home
+            setTimeout(() => {
+                window.location.href = "{% url 'auth' %}"; 
+            }, 1000);
+            
+        }, 2500); // Wait 2.5 seconds before starting fade
+    </script>
+</body>
+</html>

@@ -1,0 +1,349 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDAAN Career Roadmap Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- PASTE YOUR EXACT CSS HERE --- */
+        /* I have kept your exact variables and styles */
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-container: rgba(15, 20, 45, 0.95);
+            --bg-panel: rgba(20, 25, 50, 0.8);
+            --bg-input: rgba(10, 14, 39, 0.6);
+            --purple: #8a2be2;
+            --cyan: #00d4ff;
+            --green: #00ff41;
+            --red: #e74c3c;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.9);
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --text-info: rgba(255, 255, 255, 0.8);
+            --border-default: rgba(138, 43, 226, 0.3);
+            --border-focus: #8a2be2;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --radius-container: 20px;
+            --radius-md: 10px;
+            --radius-sm: 8px;
+            --radius-feature: 12px;
+            --shadow-container: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --comp-low: var(--green);
+            --comp-medium: #ffc107;
+            --comp-high: var(--red);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-primary);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(0, 255, 65, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(138, 43, 226, 0.15) 0%, transparent 50%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-primary);
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        header {
+            background: var(--bg-container);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-radius: var(--radius-container);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-container);
+            border: 1px solid var(--border-default);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1020; 
+        }
+
+        h1 { color: var(--purple); font-size: 2.5em; margin-bottom: 5px; }
+        .subtitle { color: var(--text-muted); font-size: 1.1em; }
+
+        .menu-icon { color: var(--cyan); font-size: 1.5em; cursor: pointer; padding: 10px; border-radius: 8px; transition: background 0.3s ease; }
+        .menu-icon:hover { background: rgba(0, 212, 255, 0.1); }
+
+        .dropdown-menu {
+            position: absolute; top: 100%; right: 0; z-index: 1021; width: 250px;
+            background: var(--bg-panel); border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); border: 1px solid var(--border-focus);
+            border-top: none; display: none; overflow: hidden;
+        }
+        .dropdown-menu.visible { display: block; }
+
+        .menu-list a { display: block; padding: 12px 15px; color: var(--text-secondary); text-decoration: none; transition: background 0.2s; }
+        .menu-list a:hover { background: rgba(138, 43, 226, 0.15); color: var(--cyan); }
+
+        .filter-section {
+            background: var(--bg-panel); backdrop-filter: blur(10px); padding: 20px;
+            border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-default);
+        }
+        .filter-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+        .filter-btn {
+            padding: 12px 24px; border: none; border-radius: 25px;
+            background: linear-gradient(135deg, var(--purple) 0%, var(--cyan) 100%);
+            color: white; cursor: pointer; font-weight: 500; transition: transform 0.2s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(135deg, var(--cyan) 0%, var(--purple) 100%);
+            transform: translateY(-2px);
+        }
+
+        .careers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-bottom: 30px; }
+
+        .career-card {
+            background: var(--bg-panel); backdrop-filter: blur(5px); border-radius: var(--radius-feature);
+            padding: 25px; border: 1px solid var(--border-default); cursor: pointer; transition: all 0.3s ease;
+        }
+        .career-card:hover { transform: translateY(-5px); border-color: var(--purple); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); }
+
+        .career-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .career-icon { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-right: 15px; }
+        .career-title { font-size: 1.4em; font-weight: 600; color: var(--text-secondary); }
+        .career-description { color: var(--text-muted); margin-bottom: 15px; line-height: 1.6; }
+
+        /* Specific Category Colors */
+        .medical { background: linear-gradient(135deg, #f093fb 0%, #d400ff 100%); }
+        .government { background: linear-gradient(135deg, var(--cyan) 0%, #4facfe 100%); }
+        .finance { background: linear-gradient(135deg, var(--green) 0%, #38f9d7 100%); }
+        .arts { background: linear-gradient(135deg, #fa709a 0%, var(--purple) 100%); }
+        .engineering { background: linear-gradient(135deg, #ff8c00 0%, #ffc107 100%); }
+        .law { background: linear-gradient(135deg, #8a2be2 0%, #4b0082 100%); }
+        .defense { background: linear-gradient(135deg, #2ecc71 0%, #16a085 100%); }
+        .other { background: linear-gradient(135deg, #00ced1 0%, #20b2aa 100%); }
+
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+        .info-item { background: var(--bg-input); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .info-label { font-size: 0.85em; color: var(--text-muted); display: block; }
+        .info-value { font-weight: 600; color: white; }
+
+        .competition-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 5px; }
+        .competition-fill { height: 100%; border-radius: 10px; }
+        .comp-low { background: var(--comp-low); }
+        .comp-medium { background: var(--comp-medium); }
+        .comp-high { background: var(--comp-high); }
+
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; overflow-y: auto; }
+        .modal-content { background: var(--bg-container); max-width: 800px; margin: 50px auto; padding: 40px; border-radius: 20px; position: relative; border: 1px solid var(--border-focus); }
+        .close-modal { position: absolute; top: 20px; right: 25px; font-size: 30px; cursor: pointer; color: var(--text-muted); }
+        
+        .roadmap-steps { list-style: none; padding-left: 20px; margin-top: 10px; }
+        .roadmap-steps li { position: relative; padding: 8px 0; color: var(--text-secondary); }
+        .roadmap-steps li::before { content: "→"; position: absolute; left: -20px; color: var(--green); }
+        
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .tag { padding: 5px 12px; background: rgba(138, 43, 226, 0.2); color: var(--purple); border: 1px solid var(--purple); border-radius: 15px; font-size: 0.85em; }
+
+        @media (max-width: 768px) {
+            .careers-grid { grid-template-columns: 1fr; }
+            .filter-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-title-group">
+                <h1>🎯 UDAAN Dashboard</h1>
+                <p class="subtitle">Explore diverse career paths with detailed guidance</p>
+            </div>
+
+            <div class="menu-icon" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <div id="mainDropdownMenu" class="dropdown-menu">
+                <div class="menu-list">
+                    <a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt fa-fw mr-2"></i> Career Library</a>
+                    <a href="{% url 'input' %}"><i class="fas fa-magic fa-fw mr-2"></i> AI Generator</a>
+                    <a href="{% url 'home' %}"><i class="fas fa-home fa-fw mr-2"></i> Home</a>
+                    <a href="{% url 'auth' %}"><i class="fas fa-sign-out-alt fa-fw mr-2"></i> Logout</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="filter-section">
+            <div class="filter-buttons" id="filterContainer">
+                <button class="filter-btn active" data-filter="all">All Careers</button>
+                <button class="filter-btn" data-filter="medical">Medical</button>
+                <button class="filter-btn" data-filter="engineering">Engineering</button>
+                <button class="filter-btn" data-filter="law">Law</button>
+                <button class="filter-btn" data-filter="finance">Finance</button>
+                <button class="filter-btn" data-filter="government">Government</button>
+                <button class="filter-btn" data-filter="defense">Defense</button>
+                <button class="filter-btn" data-filter="arts">Arts/Creative</button>
+                <button class="filter-btn" data-filter="other">Tech/Other</button>
+            </div>
+        </div>
+
+        <div class="careers-grid" id="careersGrid">
+            </div>
+    </div>
+
+    <div class="modal" id="careerModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() { document.getElementById('mainDropdownMenu').classList.toggle('visible'); }
+
+        // --- DATASET ---
+        const careers = [
+            {
+                category: 'arts', icon: '🎨', title: 'Graphic Designer',
+                description: 'Create visual content for branding and advertising.',
+                salary: '₹3-12 LPA', duration: '3-4 years', competition: 'medium', percent: 60,
+                roadmap: ['Learn Adobe Suite', 'Build Portfolio', 'Freelance Projects', 'Agency Job'],
+                skills: ['Photoshop', 'Creativity', 'Branding']
+            },
+            {
+                category: 'engineering', icon: '💻', title: 'Software Engineer',
+                description: 'Build and maintain software systems.',
+                salary: '₹6-30 LPA', duration: '4 years', competition: 'high', percent: 88,
+                roadmap: ['B.Tech CSE', 'Master DSA', 'Build Projects', 'Internships'],
+                skills: ['Java/Python', 'DSA', 'System Design']
+            },
+            {
+                category: 'medical', icon: '🏥', title: 'MBBS Doctor',
+                description: 'Diagnose and treat patients.',
+                salary: '₹6-20 LPA', duration: '5.5 years', competition: 'high', percent: 90,
+                roadmap: ['Clear NEET', 'MBBS Degree', 'Internship', 'MD/MS (Optional)'],
+                skills: ['Patient Care', 'Diagnosis', 'Biology']
+            },
+            {
+                category: 'defense', icon: '✈', title: 'Air Force Pilot',
+                description: 'Fly aircrafts for national defense.',
+                salary: '₹10-20 LPA', duration: 'Training', competition: 'very high', percent: 95,
+                roadmap: ['Clear NDA/AFCAT', 'SSB Interview', 'Academy Training', 'Commissioning'],
+                skills: ['Physical Fitness', 'Leadership', 'Reflexes']
+            },
+            {
+                category: 'finance', icon: '💰', title: 'Chartered Accountant',
+                description: 'Manage finances, audit, and taxation.',
+                salary: '₹7-25 LPA', duration: '5 years', competition: 'high', percent: 85,
+                roadmap: ['CPT Exam', 'Intermediate', 'Articleship', 'Final Exam'],
+                skills: ['Accounting', 'Taxation', 'Law']
+            },
+            {
+                category: 'government', icon: '🏛', title: 'IAS Officer',
+                description: 'Administrative leadership in government.',
+                salary: '₹8-25 LPA', duration: 'Prep 1-2 yrs', competition: 'very high', percent: 99,
+                roadmap: ['Graduation', 'UPSC Prelims', 'UPSC Mains', 'Interview'],
+                skills: ['Administration', 'Policy', 'Leadership']
+            },
+            {
+                category: 'law', icon: '⚖', title: 'Corporate Lawyer',
+                description: 'Handle legal matters for businesses.',
+                salary: '₹6-20 LPA', duration: '5 years', competition: 'medium', percent: 70,
+                roadmap: ['CLAT Exam', 'LLB Degree', 'Bar Council Reg', 'Join Firm'],
+                skills: ['Corporate Law', 'Drafting', 'Negotiation']
+            },
+            {
+                category: 'other', icon: '📊', title: 'Data Scientist',
+                description: 'Analyze data to solve business problems.',
+                salary: '₹8-35 LPA', duration: '4 years', competition: 'high', percent: 80,
+                roadmap: ['Learn Python/R', 'Statistics', 'Machine Learning', 'Projects'],
+                skills: ['Python', 'ML', 'Statistics']
+            }
+        ];
+
+        // --- RENDER LOGIC ---
+        const grid = document.getElementById('careersGrid');
+
+        function renderCareers(filter) {
+            grid.innerHTML = '';
+            const filtered = filter === 'all' ? careers : careers.filter(c => c.category === filter);
+            
+            filtered.forEach(c => {
+                let colorClass = c.competition === 'low' ? 'comp-low' : c.competition === 'medium' ? 'comp-medium' : 'comp-high';
+                
+                const card = document.createElement('div');
+                card.className = 'career-card';
+                card.onclick = () => openModal(c);
+                
+                card.innerHTML = `
+                    <div class="career-header">
+                        <div class="career-icon ${c.category}">${c.icon}</div>
+                        <div>
+                            <div class="career-title">${c.title}</div>
+                            <div style="font-size:0.8em; color:var(--cyan)">${c.category.toUpperCase()}</div>
+                        </div>
+                    </div>
+                    <p class="career-description">${c.description}</p>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Avg Salary</span>
+                            <div class="info-value">${c.salary}</div>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Duration</span>
+                            <div class="info-value">${c.duration}</div>
+                        </div>
+                    </div>
+                    <div style="margin-top:10px">
+                        <span class="info-label">Competition Level</span>
+                        <div class="competition-bar">
+                            <div class="competition-fill ${colorClass}" style="width: ${c.percent}%"></div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // --- MODAL LOGIC ---
+        function openModal(c) {
+            const modal = document.getElementById('careerModal');
+            const content = document.getElementById('modalContent');
+            
+            let skillsHtml = c.skills.map(s => `<span class="tag">${s}</span>`).join('');
+            let roadmapHtml = c.roadmap.map(step => `<li>${step}</li>`).join('');
+
+            content.innerHTML = `
+                <div class="career-header">
+                    <div class="career-icon ${c.category}">${c.icon}</div>
+                    <h2 style="color:var(--purple)">${c.title}</h2>
+                </div>
+                <p>${c.description}</p>
+                
+                <h3 style="margin-top:20px; color:var(--cyan)">🚀 Career Roadmap</h3>
+                <ul class="roadmap-steps">${roadmapHtml}</ul>
+
+                <h3 style="margin-top:20px; color:var(--cyan)">💡 Key Skills</h3>
+                <div class="tags">${skillsHtml}</div>
+            `;
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('careerModal').style.display = 'none';
+        }
+
+        // --- FILTER LOGIC ---
+        document.getElementById('filterContainer').addEventListener('click', (e) => {
+            if(e.target.classList.contains('filter-btn')) {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                renderCareers(e.target.dataset.filter);
+            }
+        });
+
+        // Initial Render
+        renderCareers('all');
+    </script>
+</body>
+</html>
